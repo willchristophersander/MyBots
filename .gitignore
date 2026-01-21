@@ -1,0 +1,12 @@
+# Conda / Python
+.conda/
+.env/
+__pycache__/
+*.pyc
+
+# OS junk
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
