@@ -42,6 +42,27 @@ class ROBOT:
                 key = jointName if jointName in self.motors else jointName.encode("utf-8")
                 self.motors[key].Set_Value(self, desiredAngle)
 
+    def Neuron_Display_Text(self):
+        s_vals = "  ".join(
+            f"{self.nn.Get_Value_Of(n):+.2f}"
+            for n in sorted(self.nn.Get_Neuron_Names())
+            if self.nn.neurons[n].Is_Sensor_Neuron()
+        )
+        m_vals = "  ".join(
+            f"{self.nn.Get_Value_Of(n):+.2f}"
+            for n in sorted(self.nn.Get_Neuron_Names())
+            if self.nn.neurons[n].Is_Motor_Neuron()
+        )
+        synapses = "  ".join(
+            f"({k[0]}->{k[1]}: {self.nn.synapses[k].Get_Weight():+.2f})"
+            for k in self.nn.synapses
+        ) if self.nn.synapses else "(no synapses)"
+        return (
+            f"Sensor neurons:  {s_vals}\n"
+            f"Motor neurons:   {m_vals}\n"
+            f"Synapses: {synapses}"
+        )
+
     def Get_Fitness(self):
         stateOfLinkZero = p.getLinkState(self.bodyId, 0)
         positionOfLinkZero = stateOfLinkZero[0]
