@@ -8,6 +8,11 @@ class PARALLEL_HILL_CLIMBER:
     def __init__(self):
         os.system("rm -f brain*.nndf")
         os.system("rm -f fitness*.txt tmp*.txt")
+        # Generate static assets exactly once to prevent parallel workers from
+        # clobbering body.urdf/world.sdf while simulations are starting.
+        bootstrap = SOLUTION(-1)
+        bootstrap.Create_World()
+        bootstrap.Create_Body()
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(c.populationSize):
@@ -24,8 +29,11 @@ class PARALLEL_HILL_CLIMBER:
     def Show_Best(self):
         bestParent = min(self.parents.values(), key=lambda s: s.fitness)
         finalBest  = bestParent.fitness
+        cpg_x = os.environ.get("CPG_X", str(getattr(c, "CPG_X", "unset")))
+        cpg_enabled = str(getattr(c, "CPG_ENABLED", False))
         label = (
             f"Parallel Hill Climber\n"
+            f"CPG_ENABLED: {cpg_enabled}  CPG_X: {cpg_x}\n"
             f"Population: {c.populationSize}  Generations: {c.numberOfGenerations}\n"
             f"Initial best fitness: {self.initialBestFitness:.3f}\n"
             f"Final best fitness:   {finalBest:.3f}"
