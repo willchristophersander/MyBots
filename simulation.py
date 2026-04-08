@@ -45,7 +45,7 @@ class SIMULATION:
         for t in range(c.SIMULATION_STEPS):
             p.stepSimulation()
             self.robot.Sense(t)
-            self.robot.Think()
+            self.robot.Think(t)
             self.robot.Act(t)
             if self.directOrGUI == "GUI":
                 if self._textId is not None:

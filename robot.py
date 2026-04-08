@@ -31,14 +31,14 @@ class ROBOT:
         for sensor in self.sensors.values():
             sensor.Get_Value(t)
 
-    def Think(self):
-        self.nn.Update()
+    def Think(self, t):
+        self.nn.Update(t)
 
     def Act(self, t):
         for neuronName in self.nn.Get_Neuron_Names():
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
-                desiredAngle = self.nn.Get_Value_Of(neuronName)
+                desiredAngle = self.nn.Get_Value_Of(neuronName) * c.motorJointRange
                 key = jointName if jointName in self.motors else jointName.encode("utf-8")
                 self.motors[key].Set_Value(self, desiredAngle)
 
@@ -64,9 +64,9 @@ class ROBOT:
         )
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.bodyId, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.bodyId)
+        basePosition = basePositionAndOrientation[0]
+        xCoordinateOfLinkZero = basePosition[0]
         tmpFileName = "tmp" + str(self.solutionID) + ".txt"
         fitnessFileName = "fitness" + str(self.solutionID) + ".txt"
         f = open(tmpFileName, "w")

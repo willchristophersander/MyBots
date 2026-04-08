@@ -2,6 +2,10 @@ from pyrosim.neuron  import NEURON
 
 from pyrosim.synapse import SYNAPSE
 
+import math
+import os
+import constants as c
+
 class NEURAL_NETWORK: 
 
     def __init__(self,nndfFileName):
@@ -28,13 +32,22 @@ class NEURAL_NETWORK:
 
         print("")
 
-    def Update(self):
+    def Update(self, t=None):
 
         for neuronName in self.neurons:
 
             if self.neurons[neuronName].Is_Sensor_Neuron():
-
-                self.neurons[neuronName].Update_Sensor_Neuron()
+                if (
+                    t is not None
+                    and getattr(c, "CPG_ENABLED", False)
+                    and str(neuronName) == str(getattr(c, "CPG_SENSOR_NEURON", "0"))
+                ):
+                    # Overwrite one sensor neuron with a central pattern generator (CPG).
+                    # This can help evolve regular gaits.
+                    x = float(os.environ.get("CPG_X", str(getattr(c, "CPG_X", 0.0))))
+                    self.neurons[neuronName].Set_Value(math.sin(x * float(t)))
+                else:
+                    self.neurons[neuronName].Update_Sensor_Neuron()
 
             else:
 
