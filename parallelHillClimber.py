@@ -32,7 +32,6 @@ class PARALLEL_HILL_CLIMBER:
         cpg_x = getattr(bestParent, "cpg_x", os.environ.get("CPG_X", str(getattr(c, "CPG_X", "unset"))))
         cpg_enabled = str(getattr(c, "CPG_ENABLED", False))
         label = (
-            f"Marching to the beat (CPG)\n"
             f"CPG_ENABLED: {cpg_enabled}  CPG_X: {cpg_x}\n"
             f"PHC  Population: {c.populationSize}  Generations: {c.numberOfGenerations}\n"
             f"Initial best fitness: {self.initialBestFitness:.3f}\n"
