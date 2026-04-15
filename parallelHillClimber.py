@@ -56,7 +56,7 @@ class PARALLEL_HILL_CLIMBER:
         if getattr(c, "CPG_ENABLED", False):
             xs = [getattr(solutions[k], "cpg_x", None) for k in solutions if hasattr(solutions[k], "cpg_x")]
             if xs:
-                print("CPG_X values:", " ".join(f"{x:.3f}" for x in xs))
+                print("CPG_X values:", " ".join(f"{x:.3f}" for x in xs), flush=True)
 
     def Spawn(self):
         self.children = {}

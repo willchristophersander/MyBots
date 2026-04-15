@@ -26,7 +26,7 @@ class SIMULATION:
                 cameraDistance=5,
                 cameraYaw=50,
                 cameraPitch=-25,
-                cameraTargetPosition=[1.5, 0, 1.0],
+                cameraTargetPosition=[0.0, 0.0, 1.0],
             )
             self.videoLogId = p.startStateLogging(
                 loggingType=p.STATE_LOGGING_VIDEO_MP4,
@@ -35,9 +35,10 @@ class SIMULATION:
             initialText = (label + "\n") if label else ""
             self._textId = p.addUserDebugText(
                 text=initialText + "Initialising...",
-                textPosition=[1.5, -2.5, 3.5],
+                # Put overlay near the robot so it's on-screen by default.
+                textPosition=[0.0, 0.0, 2.0],
                 textColorRGB=[1, 1, 0],
-                textSize=2.0,
+                textSize=1.6,
                 lifeTime=0,
             )
 
@@ -52,9 +53,9 @@ class SIMULATION:
                     prefix = (self._label + "\n") if self._label else ""
                     p.addUserDebugText(
                         text=prefix + self.robot.Neuron_Display_Text(),
-                        textPosition=[1.5, -2.5, 3.5],
+                        textPosition=[0.0, 0.0, 2.0],
                         textColorRGB=[1, 1, 0],
-                        textSize=2.0,
+                        textSize=1.6,
                         lifeTime=0,
                         replaceItemUniqueId=self._textId,
                     )
