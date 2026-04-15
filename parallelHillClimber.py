@@ -52,6 +52,11 @@ class PARALLEL_HILL_CLIMBER:
             solutions[key].Start_Simulation(directOrGUI)
         for key in solutions:
             solutions[key].Wait_For_Simulation_To_End()
+        # Useful milestone-2 evidence: show evolved CPG_X values.
+        if getattr(c, "CPG_ENABLED", False):
+            xs = [getattr(solutions[k], "cpg_x", None) for k in solutions if hasattr(solutions[k], "cpg_x")]
+            if xs:
+                print("CPG_X values:", " ".join(f"{x:.3f}" for x in xs))
 
     def Spawn(self):
         self.children = {}

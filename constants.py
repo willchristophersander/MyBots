@@ -38,3 +38,10 @@ CPG_X_MIN = 0.05
 CPG_X_MAX = 3.0
 CPG_X_MUTATION_PROB = 0.3
 CPG_X_MUTATION_SIGMA = 0.25
+
+# Quick debug (set to True to speed up local testing)
+QUICK_DEBUG = False
+if QUICK_DEBUG:
+    numberOfGenerations = 3
+    populationSize = 5
+    SIMULATION_STEPS = 200
