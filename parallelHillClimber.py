@@ -29,7 +29,7 @@ class PARALLEL_HILL_CLIMBER:
     def Show_Best(self):
         bestParent = min(self.parents.values(), key=lambda s: s.fitness)
         finalBest  = bestParent.fitness
-        cpg_x = os.environ.get("CPG_X", str(getattr(c, "CPG_X", "unset")))
+        cpg_x = getattr(bestParent, "cpg_x", os.environ.get("CPG_X", str(getattr(c, "CPG_X", "unset"))))
         cpg_enabled = str(getattr(c, "CPG_ENABLED", False))
         label = (
             f"Marching to the beat (CPG)\n"

@@ -32,3 +32,9 @@ numMotorNeurons = 8
 CPG_ENABLED = True
 CPG_SENSOR_NEURON = 0
 CPG_X = 0.25
+
+# Milestone 2: Evolve CPG_X per-solution
+CPG_X_MIN = 0.05
+CPG_X_MAX = 3.0
+CPG_X_MUTATION_PROB = 0.3
+CPG_X_MUTATION_SIGMA = 0.25
