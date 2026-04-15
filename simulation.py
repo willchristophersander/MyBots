@@ -35,8 +35,8 @@ class SIMULATION:
             initialText = (label + "\n") if label else ""
             self._textId = p.addUserDebugText(
                 text=initialText + "Initialising...",
-                # Put overlay near the robot so it's on-screen by default.
-                textPosition=[0.0, 0.0, 2.0],
+                # Put overlay above the ground block (out of robot's way).
+                textPosition=[0.0, -2.0, 3.0],
                 textColorRGB=[1, 1, 0],
                 textSize=1.6,
                 lifeTime=0,
@@ -53,7 +53,7 @@ class SIMULATION:
                     prefix = (self._label + "\n") if self._label else ""
                     p.addUserDebugText(
                         text=prefix + self.robot.Neuron_Display_Text(),
-                        textPosition=[0.0, 0.0, 2.0],
+                        textPosition=[0.0, -2.0, 3.0],
                         textColorRGB=[1, 1, 0],
                         textSize=1.6,
                         lifeTime=0,
