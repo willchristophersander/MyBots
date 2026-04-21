@@ -2,7 +2,8 @@ import math
 import numpy
 
 # Simulation
-SIMULATION_STEPS = 500
+# Milestone 3: slightly longer eval so unstable gaits have time to fail visibly.
+SIMULATION_STEPS = 600
 SIMULATION_SLEEP_TIME = 1 / 240.0
 
 # Physics
@@ -11,12 +12,16 @@ GRAVITY_Y = 0.0
 GRAVITY_Z = -9.8
 
 # Motors (position control)
-MOTOR_MAX_FORCE = 500
+# Milestone 3: lower max torque reduces explosive flips / launches.
+MOTOR_MAX_FORCE = 250
 AMPLITUDE = math.pi / 4.0
 FREQUENCY = 1.0
 PHASE_OFFSET = 0.0
 # Keep joint excursions modest to encourage repeatable stepping gaits.
-motorJointRange = 0.2
+motorJointRange = 0.15
+
+# Milestone 3: penalize torso tilt in fitness (roll/pitch from upright).
+STABILITY_ROLL_PITCH_PENALTY = 1.0
 
 # Evolution (deliverable-quality search preset)
 numberOfGenerations = 25

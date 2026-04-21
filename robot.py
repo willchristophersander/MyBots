@@ -12,6 +12,8 @@ class ROBOT:
         self.solutionID = solutionID
         self.bodyId = p.loadURDF("body.urdf")
         pyrosim.Prepare_To_Simulate(self.bodyId)
+        # Milestone 3: light damping on the base reduces runaway spin / flip energy.
+        p.changeDynamics(self.bodyId, -1, angularDamping=0.4, linearDamping=0.05)
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
         self.nn = NEURAL_NETWORK("brain" + str(solutionID) + ".nndf")
@@ -66,11 +68,18 @@ class ROBOT:
     def Get_Fitness(self):
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.bodyId)
         basePosition = basePositionAndOrientation[0]
+        baseOrientation = basePositionAndOrientation[1]
         xCoordinateOfLinkZero = basePosition[0]
+        roll, pitch, _yaw = p.getEulerFromQuaternion(baseOrientation)
+        tilt_cost = roll * roll + pitch * pitch
+        fitness = (
+            xCoordinateOfLinkZero
+            - c.STABILITY_ROLL_PITCH_PENALTY * tilt_cost
+        )
         tmpFileName = "tmp" + str(self.solutionID) + ".txt"
         fitnessFileName = "fitness" + str(self.solutionID) + ".txt"
         f = open(tmpFileName, "w")
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(fitness))
         f.close()
         os.system("mv " + tmpFileName + " " + fitnessFileName)
 
